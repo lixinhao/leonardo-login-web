@@ -8,7 +8,8 @@ const base = {
   secret: {
     key_str: '^#rwd6Ffz$X5alRN',
     iv_str: '^#rwd6Ffz$X5alRN'
-  }
+  },
+  redirect_uri: 'http://mall.paascloud.net'
 };
 const cbs = {};
 // 生成模式
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV === 'production') {
   base.domain = '.leonardo.net';
   base.lockr_prefix += '_DEV_';
 }
+// 常量
 const enums = {
   USER: {
     LOGIN_NAME: 'LOGIN_NAME',

@@ -3,16 +3,18 @@ import App from './App';
 import router from './router';
 import Vuex from 'vuex';
 import store from './store/';
+import './icons';
 import NProgress from 'nprogress';
+import Cookies from 'js-cookie';
 import 'nprogress/nprogress.css';
 import axios from 'axios';
 import VueLazyload from 'vue-lazyload';
 import infiniteScroll from 'vue-infinite-scroll';
-import Mixin from './components/mixins';
 import 'element-ui/lib/theme-chalk/index.css';
-import { Dialog, Loading, Message, MessageBox } from 'element-ui';
-import { enums, MyCookie, MyEncrypt, MyLockr } from 'utils/';
-
+import Element from 'element-ui';
+import i18n from './locale';
+import { enums, Mixin, MyCookie, MyEncrypt, MyLockr } from './utils';
+// 状态管理
 Vue.use(Vuex);
 // 滚动条
 Vue.use(infiniteScroll);
@@ -25,23 +27,27 @@ Vue.use(VueLazyload, {
 });
 // 全站进度条
 Vue.prototype.$pcNProgress = NProgress;
-// 饿了么UI组件
-const components = [
-  Dialog
-];
-components.map(component => {
-  Vue.component(component.name, component);
-});
 // 全局配置对象。该对象目前支持 size 与 zIndex 字段。size 用于改变组件的默认尺寸，zIndex 设置弹框的初始 z-index（默认值：2000）
 // 项目中所有拥有 size 属性的组件的默认尺寸均为 'small'
-Vue.prototype.$ELEMENT = { size: 'small' };
-Vue.use(Loading.directive);
-Vue.prototype.$loading = Loading.service;
-Vue.prototype.$msgbox = MessageBox;
-Vue.prototype.$alert = MessageBox.alert;
-Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$prompt = MessageBox.prompt;
-Vue.prototype.$message = Message;
+Vue.use(Element, {
+  size: Cookies.get('size') || 'medium',
+  i18n: (key, value) => i18n.t(key, value)
+});
+// 饿了么UI组件
+// const components = [
+//   Dialog
+// ];
+// components.map(component => {
+//   Vue.component(component.name, component);
+// });
+// Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
+// Vue.use(Loading.directive);
+// Vue.prototype.$loading = Loading.service;
+// Vue.prototype.$msgbox = MessageBox;
+// Vue.prototype.$alert = MessageBox.alert;
+// Vue.prototype.$confirm = MessageBox.confirm;
+// Vue.prototype.$prompt = MessageBox.prompt;
+// Vue.prototype.$message = Message;
 // 工具方法
 Vue.prototype.$myEnum = enums;
 Vue.prototype.$myEncrypt = MyEncrypt;
@@ -120,11 +126,13 @@ router.beforeEach((to, from, next) => {
 router.afterEach(transition => {
   NProgress.done();
 });
+// 关闭生产模式下给出的提示
 Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({
   router,
   store,
+  i18n,
   // 渲染App组件
   render: h => h(App)
   // 延迟挂载

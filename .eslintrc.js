@@ -19,7 +19,8 @@ module.exports = {
   ],
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue',
+    'html'
   ],
   /*
   下面这些rules是用来设置从插件来的规范代码的规则，使用必须去掉前缀eslint-plugin-
@@ -29,6 +30,8 @@ module.exports = {
    "error" -> 2 开启错误规则
  */
   rules: {
+    // 允许在字符串和正则表达式中使用无意义的换行符
+    "no-useless-escape": "off",
     // 生成器函数*的前后空格
     'generator-star-spacing': 'off',
     // 使用debugger
@@ -37,7 +40,24 @@ module.exports = {
     'semi': [2, 'always'],
     // 强制驼峰法命名
     'camelcase': 2,
+    // 禁止在函数参数中出现重复名称的参数
+    'no-dupe-args': 'error',
+    // 禁止在对象字面量中出现重复名称的键名
+    'no-dupe-keys': 'error',
+    // 必须使用 isNaN(foo) 而不是 foo === NaN
+    'use-isnan': 'error',
+    // 注释必须符合 jsdoc 的规范
+    // @off jsdoc 要求太严格
+    'valid-jsdoc': 'off',
+    // 强制在注释中 // 或 /* 使用一致的空格
+    'spaced-comment': 0,
+    // 禁止注释中出现 TODO 和 FIXME
+    // @off TODO 很常用
+    'no-warning-comments': 'off',
     // 逗号风格，换行时在行首还是行尾
-    'comma-style': [2, "last"]
+    'comma-style': [2, "last"],
+    'no-multiple-empty-lines': ["error", { "max": 2, "maxEOF": 1 }],
+    // class 类成员之间空行
+    'lines-between-class-members': [2, 'always']
   }
 };
