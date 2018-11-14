@@ -4,8 +4,11 @@ export default {
     logIn: 'Log in',
     username: 'Username',
     password: 'Password',
-    any: 'any',
-    thirdparty: 'Or connect with',
-    thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
+    rememberMe: 'Remember me',
+    forgetPwd: 'Forget password?'
+  },
+  from: {
+    userName: 'Please enter a user name ...',
+    password: 'Please enter password ...'
   }
 };

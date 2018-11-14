@@ -4,6 +4,9 @@ const layout = {
   state: {
     language: Cookies.get('language') || 'en'
   },
+  getters: {
+    language: state => state.language
+  },
   mutations: {
     SET_LANGUAGE: (state, language) => {
       state.language = language;

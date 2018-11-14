@@ -19,17 +19,17 @@
     },
     methods: {
       handleSetLanguage (lang) {
+        let mes ;
         this.$i18n.locale = lang;
         this.$store.dispatch('setLanguage', lang);
-        let message = '';
         if (lang === 'en') {
-          message = 'Switch Language Success';
+          mes = 'Switch Language Success';
         }
         if (lang === 'zh') {
-          message = '语言切换成功';
+          mes = '语言切换成功';
         }
         this.$message({
-          message: message,
+          message: mes,
           type: 'success'
         })
       }
