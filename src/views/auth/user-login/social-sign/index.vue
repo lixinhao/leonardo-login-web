@@ -1,14 +1,14 @@
 <template>
   <el-row type="flex" justify="start">
-    <el-col :span="8">
+    <el-col :span="7">
       <div>其他方式登录:</div>
     </el-col>
     <el-col :span="15">
         <div class="sign-btn" @click="wechatHandleClick('wechat')">
-          <span class="wx-svg-container"><svg-icon icon-class="wechat" class="icon"></svg-icon></span> 微信
+          <span class="wx-svg-container"><svg-icon icon-class="wechat" class="icon"></svg-icon></span>
         </div>
         <div class="sign-btn" @click="tencentHandleClick('tencent')">
-          <span class="qq-svg-container"><svg-icon icon-class="qq" class="icon"></svg-icon></span> QQ
+          <span class="qq-svg-container"><svg-icon icon-class="qq" class="icon"></svg-icon></span>
         </div>
     </el-col>
   </el-row>
@@ -23,7 +23,6 @@
   .icon {
     color: #fff;
     font-size: 24px;
-    margin-top: 8px;
   }
 
   .wx-svg-container,
@@ -33,7 +32,7 @@
     height: 40px;
     line-height: 40px;
     text-align: center;
-    padding-top: 1px;
+    padding: 8px 5px 3px 6px;
     border-radius: 4px;
     margin-bottom: 20px;
     margin-right: 5px;
@@ -45,7 +44,6 @@
 
   .qq-svg-container {
     background-color: #6BA2D6;
-    margin-left: 50px;
   }
 
 </style>

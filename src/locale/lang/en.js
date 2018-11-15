@@ -5,7 +5,8 @@ export default {
     username: 'Username',
     password: 'Password',
     rememberMe: 'Remember me',
-    forgetPwd: 'Forget password?'
+    forgetPwd: 'Forget password?',
+    register: 'Free registration'
   },
   from: {
     userName: 'Please enter a user name ...',

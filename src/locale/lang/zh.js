@@ -5,7 +5,8 @@ export default {
     username: '账号',
     password: '密码',
     rememberMe: '记住我',
-    forgetPwd: '忘记密码?'
+    forgetPwd: '忘记密码?',
+    register: '免费注册'
   },
   from: {
     userName: '请输入用户名 ...',

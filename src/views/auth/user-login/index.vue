@@ -43,7 +43,7 @@
             <el-form-item>
               <el-row type="flex" justify="end">
                 <el-col :span="6" class="el_text_end el_form_item_margin">
-                  <a class="m-link" @click="loadPage('ResetPwdEmail')">免费注册</a>
+                  <a class="m-link" @click="loadPage('ResetPwdEmail')">{{ $t('login.register') }}</a>
                 </el-col>
               </el-row>
             </el-form-item>
