@@ -25,7 +25,16 @@ export default new Router({
         path: 'login',
         name: 'Login',
         component: Auth.Login
-      }]
+      }, {
+        meta: {
+          name: '用户注册',
+          noRequiredAuth: true
+        },
+        path: 'register',
+        name: 'Register',
+        component: Auth.Register
+      }
+      ]
     },
     {
       // 错误路由[写在最后一个]

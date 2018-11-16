@@ -1,36 +1,38 @@
 <template>
   <div class="login">
     <el-row class="login_center" justify="center" type="flex">
-      <el-col :model="user" :xs="24" :sm="6" :md="8" :lg="9" :xl="6">
-        <el-card class="login-box" v-loading="$store.state.loading" element-loading-background="rgba(0, 0, 0, 0.8)">
-          <lang-select class="set-language"></lang-select>
+      <el-col :xs="24" :sm="6" :md="8" :lg="9" :xl="6">
+        <el-card class="login-box" element-loading-background="rgba(0, 0, 0, 0.8)">
+          <el-tooltip effect="dark" content="语言切换" placement="top-start">
+            <lang-select class="set-language"></lang-select>
+          </el-tooltip>
           <div class="login_logo">
             <a href="#">
               <img src="~images/login/logo.png">
             </a>
           </div>
           <h1 class="title">{{ $t('login.title') }}</h1>
-          <el-form>
-            <el-form-item>
-              <el-input type="text" v-model="user.userName" auto-complete="off" :placeholder="$t('from.userName')" suffix-icon="el-icon-bell" clearable></el-input>
+          <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
+            <el-form-item prop="loginName">
+              <el-input type="text" v-model="loginForm.loginName" auto-complete="off" :placeholder="$t('from.loginName')" suffix-icon="el-icon-bell" clearable></el-input>
             </el-form-item>
-            <el-form-item>
-              <el-input type="password" v-model="user.password" auto-complete="off" :placeholder="$t('from.password')" suffix-icon="el-icon-edit" clearable></el-input>
+            <el-form-item prop="loginPwd">
+              <el-input type="password" v-model="loginForm.loginPwd" auto-complete="off" :placeholder="$t('from.loginPwd')" suffix-icon="el-icon-view" clearable></el-input>
             </el-form-item>
-            <el-form-item>
-              <el-row type="flex" justify="start">
-                <el-col :xl="6">
-                  <el-input type="text" v-model="user.captchaCode" placeholder="验证码" clearable></el-input>
+            <el-form-item prop="captchaCode">
+              <el-row type="flex" justify="space-between">
+                <el-col :xl="9">
+                  <el-input type="text" v-model="loginForm.captchaCode" :placeholder="$t('from.captchaCode')" clearable></el-input>
                 </el-col>
                 <el-col :xl="6" class="login_img">
-                  <img src="~images/login/logo.png">
+                  <img v-lazy="imageCode" @click="getImage" class="login-image-code"/>
                 </el-col>
               </el-row>
             </el-form-item>
             <el-form-item>
               <el-row class="login_row">
                 <el-col :xl="12" :xs="12" :sm="12" :md="12" :lg="12">
-                  <el-checkbox v-model="checked" class="login_remember_me">{{ $t('login.rememberMe') }}</el-checkbox>
+                  <el-checkbox :checked="rememberMe" @change="rememberMeFn" class="login_remember_me">{{ $t('login.rememberMe') }}</el-checkbox>
                 </el-col>
                 <el-col :xl="12" :xs="12" :sm="12" :md="12" :lg="12" class="login_forget_pwd">
                   <a class="m-link" @click="loadPage('ResetPwdEmail')">{{ $t('login.forgetPwd') }}</a>
@@ -38,12 +40,12 @@
               </el-row>
             </el-form-item>
             <el-form-item class="el_form_item_margin">
-              <el-button type="primary" @click="login" :loading="$store.state.loading">{{ $t('login.logIn') }}</el-button>
+              <el-button type="primary" @click="doLogin" :loading="loading">{{ $t('login.logIn') }}</el-button>
             </el-form-item>
             <el-form-item>
               <el-row type="flex" justify="end">
                 <el-col :span="6" class="el_text_end el_form_item_margin">
-                  <a class="m-link" @click="loadPage('ResetPwdEmail')">{{ $t('login.register') }}</a>
+                  <a class="m-link" @click="loadPage('Register')">{{ $t('login.register') }}</a>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -56,151 +58,148 @@
     </el-row>
   </div>
 </template>
-<style>
-  .el_text_end {
-    text-align: end;
-  }
-
-  .el_text_start {
-    text-align: start;
-  }
-
-  .el_form_item_margin {
-    margin-top: -22px;
-  }
-
-  .el_form_item_margin button {
-    width: 100%;
-  }
-
-  .login_center {
-    padding: 10% 2rem 1rem 2rem;
-    margin: 0 auto 2rem auto;
-  }
-
-  a:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  .m-link {
-    color: #aba5b6;
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
-  }
-
-  .m-link:after {
-    display: block;
-    content: '';
-    position: absolute;
-    bottom: 10px;
-    top: 0;
-    left: 0;
-    /*开始时候下划线的宽度为0*/
-    width: 0;
-    -webkit-transition: width 0.3s ease;
-    /*这里我们设定所有改变都有动画效果，可以自己指定样式才有动画效果*/
-    transition: width 0.3s ease;
-  }
-
-  .m-link:hover {
-    text-decoration: none !important
-  }
-
-  .m-link:hover:after {
-    width: 100%
-  }
-
-  .m-link:hover {
-    color: #776e87
-  }
-
-  .m-link:hover:after {
-    border-bottom: 1px solid #776e87;
-    opacity: .3;
-    filter: alpha(opacity=30)
-  }
-
-  .login_remember_me {
-    color: #aba5b6;
-  }
-
-  .login_row {
-    margin-top: -30px;
-    padding-left: 7px;
-    padding-right: 7px;
-  }
-
-  .login_img {
-    text-align: right;
-  }
-
-  .login_img img {
-    height: 36px;
-    width: 120px;
-  }
-
-  .login_forget_pwd {
-    text-align: right;
-    color: #aba5b6;
-  }
-
-  .login_logo {
-    text-align: center;
-    margin: 0 auto;
-  }
-
-  .login {
-    /**把背景图像扩展至足够大，以使背景图像完全覆盖背景区域。背景图像的某些部分也许无法显示在背景定位区域中*/
-    background-size: cover;
-    background: url(~images/login/bg.jpg) no-repeat center center fixed;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-  }
-
-  .login-box {
-    background: #ffffff;
-    border: none;
-  }
-
-  .login-box-msg {
-    color: #000000;
-    text-align: center;
-  }
-
-  .login-box .title {
-    color: #000000;
-    text-align: center;
-  }
-</style>
 <script>
-  import LangSelect from '@/components/LangSelect'
-  import SocialSign from './social-sign'
+  import LangSelect from '@/components/LangSelect';
+  import SocialSign from './social-sign';
 
   export default {
     name: "Login",
     components: { LangSelect, SocialSign },
     data () {
+      const validateLoginName = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error(this.$t('validate.loginName')))
+        } else {
+          callback()
+        }
+      };
+      const validateLoginPwd = (rule, value, callback) => {
+        if (value.length < 6) {
+          callback(new Error(this.$t('validate.loginPwd')))
+        } else {
+          callback()
+        }
+      };
+      const validateCaptchaCode = (rule, value, callback) => {
+        if (value.length < 6) {
+          callback(new Error(this.$t('validate.captchaCode')))
+        } else {
+          callback()
+        }
+      };
       return {
-        user: {
-          userName: "",
-          password: "",
-          captchaCode: ""
+        loading: false,
+        imageCode: '',
+        deviceId: '',
+        loginForm: {
+          loginName: '',
+          loginPwd: '',
+          captchaCode: ''
         },
-        checked: false
+        loginRules: {
+          loginName: [{ required: true, trigger: 'blur', validator: validateLoginName }],
+          loginPwd: [{ required: true, trigger: 'blur', validator: validateLoginPwd }],
+          captchaCode: [{ required: true, trigger: 'blur', validator: validateCaptchaCode }],
+        },
       };
     },
+    // 编译好页面后执行
+    mounted () {
+      this.getImage();
+    },
     methods: {
-      login () {
-        this.$http.post("/passport/signIn", this.user).then(res => {
-          if (res.data.token) {
-            this.$store.commit("setToken", res.data.token);
-            this.$router.push({ path: "/dashboard" });
+      // 点击登录按钮
+      doLogin () {
+        // 表单验证
+        this.$refs.loginForm.validate(valid => {
+          if (!valid) {
+            this.loading = true;
+            this.login();
+          } else {
+            return false
           }
+        })
+      },
+      // 登录请求
+      login () {
+        let loginName = this.loginForm.loginName;
+        let loginPwd = this.loginForm.loginPwd;
+        this.$http({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'deviceId': this.deviceId
+          },
+          url: '/uac/auth/form',
+          auth: {
+            username: 'leonardo-client-uac',
+            password: 'leonardoClientSecret'
+          },
+          params: {
+            username: loginName,
+            password: loginPwd,
+            imageCode: this.loginForm.captchaCode
+          }
+        }).then((res) => {
+          this.loading = false;
+          // 刷新验证码
+          this.getImage();
+          if (res && res.code === 200) {
+            this.$message({
+              showClose: true,
+              message: '登录成功',
+              type: 'success'
+            });
+            // 更新认证Token
+            this.$store.dispatch('update_auth_token', res.result);
+            window.location.href = this.redirectUri;
+          } else {
+            this.$message({
+              showClose: true,
+              message: '登录失败',
+              type: 'warning'
+            });
+          }
+        }).catch((err) => {
+          this.$message({
+            showClose: true,
+            message: '系统异常',
+            type: 'error'
+          });
+          console.log(err);
         });
+      },
+      getImage () {
+        // let that = this;
+        // that.deviceId = new Date().getTime();
+        // this.$http({
+        //   method: 'POST',
+        //   url: '/uac/auth/code/image',
+        //   headers: {
+        //     'deviceId': that.deviceId
+        //   },
+        //   data: ''
+        // }).then((res) => {
+        //   that.imageCode = 'data:image/jpg;base64,' + res.result;
+        // });
+      },
+      rememberMeFn () {
+        // 本地更新'记住我'
+        this.$store.dispatch('update_remember_me');
+      }
+    },
+    computed: {
+      // 获取'记住我'
+      rememberMe () {
+        return this.$store.getters.getRememberMe;
+      },
+      // 获取重定向URL
+      redirectUri () {
+        return this.$store.getters.getRedirectUri;
       }
     }
   };
 </script>
+<style rel="stylesheet/scss" lang="scss" scoped>
+  @import "~assets/style/views/auth/user-login";
+</style>

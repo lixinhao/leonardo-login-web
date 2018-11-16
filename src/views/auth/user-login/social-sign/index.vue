@@ -1,7 +1,7 @@
 <template>
   <el-row type="flex" justify="start">
     <el-col :span="7">
-      <div>其他方式登录:</div>
+      <div>{{ $t('login.otherWays') }}</div>
     </el-col>
     <el-col :span="15">
         <div class="sign-btn" @click="wechatHandleClick('wechat')">

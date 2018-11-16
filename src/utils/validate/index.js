@@ -1,8 +1,3 @@
-export function isvalidUsername (str) {
-  const validMap = ['admin', 'editor'];
-  return validMap.indexOf(str.trim()) >= 0;
-}
-
 /**
  * 合法uri
  * @param url URL
