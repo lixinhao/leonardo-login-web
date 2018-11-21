@@ -2,7 +2,7 @@ export default {
   login: {
     title: 'Login Form',
     logIn: 'Log in',
-    loginName: 'Username',
+    EloginName: 'Username',
     loginPwd: 'Password',
     rememberMe: 'Remember me',
     forgetPwd: 'Forget password?',
@@ -24,7 +24,10 @@ export default {
   },
   validate: {
     loginName: 'Please enter the correct user name',
+    email: 'Please enter your email address',
+    correctEmail: 'Please enter the correct email address',
     loginPwd: 'Please enter the correct password',
-    captchaCode: 'Please enter the correct captchaCode'
+    confirmPwd: 'The two passwords do not match',
+    captchaCode: 'Please enter the captchaCode'
   }
 };

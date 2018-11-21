@@ -1,8 +1,9 @@
-import MyLockr from './lockr';
-import MyEncrypt from './encrypt';
-import MyCookie from './cookie';
 import { base, cbs, enums } from './constant';
-import Mixin from './mixins';
+import MyCookie from './cookie';
+import MyEncrypt from './encrypt';
+import MyLockr from './lockr';
+import { asyncAjax, config, msg, validate } from './mixins';
+import http from './http';
 
 export {
   MyLockr,
@@ -10,6 +11,10 @@ export {
   MyCookie,
   base,
   cbs,
-  Mixin,
+  validate,
+  asyncAjax,
+  msg,
+  config,
+  http,
   enums
 };

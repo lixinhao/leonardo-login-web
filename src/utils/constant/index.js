@@ -5,10 +5,11 @@ const base = {
   lockr_prefix: 'leonardo',
   secret_key: '^#rwd6Ffz$X5alRN',
   domain: '.leonardo.net',
-  secret: {
-    key_str: '^#rwd6Ffz$X5alRN',
-    iv_str: '^#rwd6Ffz$X5alRN'
+  auth: {
+    username: 'leonardo-client-uac',
+    password: 'leonardoClientSecret'
   },
+  timeout: 60000,
   redirect_uri: 'http://mall.paascloud.net'
 };
 const cbs = {};

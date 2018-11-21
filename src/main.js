@@ -7,13 +7,12 @@ import './icons';
 import NProgress from 'nprogress';
 import Cookies from 'js-cookie';
 import 'nprogress/nprogress.css';
-import axios from 'axios';
 import VueLazyload from 'vue-lazyload';
 import infiniteScroll from 'vue-infinite-scroll';
 import 'element-ui/lib/theme-chalk/index.css';
 import Element from 'element-ui';
 import i18n from './locale';
-import { enums, Mixin, MyCookie, MyEncrypt, MyLockr } from './utils';
+import { enums, http, Mixin, MyCookie, MyEncrypt, MyLockr, Validate } from './utils';
 // 状态管理
 Vue.use(Vuex);
 // 滚动条
@@ -26,84 +25,22 @@ Vue.use(VueLazyload, {
   attempt: 2
 });
 // 全站进度条
-Vue.prototype.$pcNProgress = NProgress;
+Vue.prototype.$myNProgress = NProgress;
 // 全局配置对象。该对象目前支持 size 与 zIndex 字段。size 用于改变组件的默认尺寸，zIndex 设置弹框的初始 z-index（默认值：2000）
 // 项目中所有拥有 size 属性的组件的默认尺寸均为 'small'
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium',
   i18n: (key, value) => i18n.t(key, value)
 });
-// 饿了么UI组件
-// const components = [
-//   Dialog
-// ];
-// components.map(component => {
-//   Vue.component(component.name, component);
-// });
-// Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
-// Vue.use(Loading.directive);
-// Vue.prototype.$loading = Loading.service;
-// Vue.prototype.$msgbox = MessageBox;
-// Vue.prototype.$alert = MessageBox.alert;
-// Vue.prototype.$confirm = MessageBox.confirm;
-// Vue.prototype.$prompt = MessageBox.prompt;
-// Vue.prototype.$message = Message;
-// 工具方法
+//定义全局变量
 Vue.prototype.$myEnum = enums;
 Vue.prototype.$myEncrypt = MyEncrypt;
 Vue.prototype.$myLockr = MyLockr;
 Vue.prototype.$myCookie = MyCookie;
+Vue.prototype.$http = http;
 // 封装复用的代码
 Vue.mixin(Mixin);
-// http库 axios
-Vue.prototype.$http = axios.create({ timeout: 60000 });
-if (process.env.NODE_ENV === 'production') {
-  // 全局的 axios 默认值
-  Vue.prototype.$http.defaults.baseURL = 'http://api.leonardo.net/';
-}
-// 添加响应拦截器
-Vue.prototype.$http.interceptors.response.use((res) => {
-  if (res.data.code === 200) {
-    if (res.data) {
-      return res.data;
-    }
-  }
-  if (res.data.code === 10011039 || res.data.code === 10011040 || res.data.code === 10011041) {
-    console.info('登录超时', res.data);
-    // 验证token失败 || 解析header失败 || 页面已过期,请重新登录
-    // store.dispatch('delete_user_info');
-    // window.location.href = '/';
-    return Promise.reject(res);
-  } else {
-    store.dispatch('new_notice', {
-      autoClose: true,
-      content: res.data.message
-    });
-    return Promise.reject(res);
-  }
-}, (error) => {
-  // 对响应错误做点什么
-  let options = {
-    autoClose: true,
-    content: error.response.data.message
-  };
-  if (error.response) {
-    console.error('error: ', error.response);
-    if (error.response.status === 500) {
-      options.content = error.response.data.message;
-    } else if (error.response.status === 401) {
-      store.dispatch('delete_user_info');
-      options.content = '登录超时, 请重新登录';
-      window.location.href = '/';
-    } else {
-      console.error('Error', error.message);
-      options.content = '接口请求失败或超时！请刷新重试';
-    }
-  } else {
-    options.content = '接口请求失败或超时！请刷新重试';
-  }
-  store.dispatch('new_notice', options);
-});
+Vue.mixin(Validate);
 // 注册一个全局前置守卫 当一个导航触发时，全局前置守卫按照创建顺序调用。守卫是异步解析执行，此时导航在所有守卫 resolve 完之前一直处于 等待中。
 // to  即将要进入的目标 路由对象
 // from 当前导航正要离开的路由

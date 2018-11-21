@@ -3,7 +3,9 @@ import Lockr from 'lockr';
 
 Lockr.prefix = base.lockr_prefix;
 
-// 本地存储localStorage
+/**
+ * 本地存储localStorage
+ */
 class MyLockr {
   constructor () {
     this.pcPrefix = base.lockr_prefix;

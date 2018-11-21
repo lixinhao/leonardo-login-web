@@ -1,5 +1,5 @@
 import { base, enums, MyCookie, MyLockr } from '@/utils';
-import { refreshToken } from '@/api/refreshToken';
+import { UserHttp } from '@/api';
 // 状态:用来存放数据
 const state = {
   // 登录名
@@ -243,7 +243,7 @@ const actions = {
     if (state.authToken.access_token) {
       // 判断是否需要续租
       if ((new Date().getTime() - state.authToken.timestamp) > 100 * 60 * 1000) {
-        refreshToken().then(res => {
+        UserHttp.refreshToken().then(res => {
           console.info('res:', res);
           if (res.data.code === 200) {
             commit('updateAuthToken', res.data.result);
