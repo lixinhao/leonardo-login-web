@@ -20,7 +20,9 @@ export default {
     loginPwd: 'Please enter password ...',
     confirmPwd: 'Please confirm the password ...',
     mobileNo: 'Please enter your phone number ...',
-    captchaCode: 'Please enter the verification code ...'
+    captchaCode: 'Please enter the verification code ...',
+    confirm: 'confirm',
+    cancel: 'cancel'
   },
   validate: {
     loginName: 'Please enter the correct user name',
@@ -28,6 +30,12 @@ export default {
     correctEmail: 'Please enter the correct email address',
     loginPwd: 'Please enter the correct password',
     confirmPwd: 'The two passwords do not match',
-    captchaCode: 'Please enter the captchaCode'
+    captchaCode: 'Please enter the captchaCode',
+    message: 'The prompt message must be entered',
+    server: {
+      loginName: 'User name already exists',
+      email: 'Mailbox already exists',
+      mobileNo: 'The phone number already exists'
+    }
   }
 };

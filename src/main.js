@@ -12,7 +12,7 @@ import infiniteScroll from 'vue-infinite-scroll';
 import 'element-ui/lib/theme-chalk/index.css';
 import Element from 'element-ui';
 import i18n from './locale';
-import { enums, http, Mixin, MyCookie, MyEncrypt, MyLockr, Validate } from './utils';
+import { enums, http, Mixins, MyCookie, MyEncrypt, MyLockr } from './utils';
 // 状态管理
 Vue.use(Vuex);
 // 滚动条
@@ -39,8 +39,7 @@ Vue.prototype.$myLockr = MyLockr;
 Vue.prototype.$myCookie = MyCookie;
 Vue.prototype.$http = http;
 // 封装复用的代码
-Vue.mixin(Mixin);
-Vue.mixin(Validate);
+Vue.mixin(Mixins);
 // 注册一个全局前置守卫 当一个导航触发时，全局前置守卫按照创建顺序调用。守卫是异步解析执行，此时导航在所有守卫 resolve 完之前一直处于 等待中。
 // to  即将要进入的目标 路由对象
 // from 当前导航正要离开的路由

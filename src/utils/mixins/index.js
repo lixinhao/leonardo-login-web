@@ -1,11 +1,11 @@
-import asyncAjax from './asyncAjax';
-import config from './config';
-import msg from './msg';
-import validate from './validate';
+import Async from './async';
+import Config from './config';
+import Msg from './msg';
+import Validate from './validate';
 
 export {
-  asyncAjax,
-  msg,
-  config,
-  validate
+  Async,
+  Msg,
+  Config,
+  Validate
 };

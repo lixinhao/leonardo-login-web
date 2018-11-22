@@ -53,7 +53,7 @@ module.exports = {
     'spaced-comment': 0,
     // 禁止注释中出现 TODO 和 FIXME
     // @off TODO 很常用
-    'no-warning-comments': 'off',
+    // 'no-warning-comments': 'off',
     // 逗号风格，换行时在行首还是行尾
     'comma-style': [2, "last"],
     'no-multiple-empty-lines': ["error", { "max": 2, "maxEOF": 1 }],

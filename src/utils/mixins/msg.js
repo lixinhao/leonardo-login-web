@@ -19,6 +19,15 @@ let msg = {
     warnMsg (msg, showClose) {
       this.message(msg, 'warning', showClose);
     },
+    /**弹出框*/
+    confirmModel (message, url, param, callback) {
+      this.ajaxBox({
+        url: url,
+        data: param || '',
+        message: message,
+        success: callback
+      });
+    },
     /**
      * 消息框
      * @param msg 消息文字

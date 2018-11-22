@@ -20,7 +20,9 @@ export default {
     loginPwd: '请输入密码 ...',
     confirmPwd: '请确认密码 ...',
     mobileNo: '请输入手机号 ...',
-    captchaCode: '请输入验证码...'
+    captchaCode: '请输入验证码...',
+    confirm: '确定',
+    cancel: '取消'
   },
   validate: {
     loginName: '请输入正确的用户名',
@@ -29,6 +31,12 @@ export default {
     loginPwd: '请输入正确的密码',
     confirmPwd: '两次输入密码不一致',
     mobileNo: '请输入手机号',
-    captchaCode: '请输入验证码'
+    captchaCode: '请输入验证码',
+    message: '必须输入提示信息',
+    server: {
+      loginName: '用户名已存在',
+      email: '邮箱已存在',
+      mobileNo: '手机号码已存在'
+    }
   }
 };
