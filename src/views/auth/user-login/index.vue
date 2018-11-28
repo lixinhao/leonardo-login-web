@@ -185,7 +185,19 @@
             callback();
           }
         };
-      }
+      },
+      /**
+       * 验证码校验
+       */
+      $_validator_captchaCode () {
+        return (rule, value, callback) => {
+          if (!value) {
+            callback(new Error(this.$t('validate.captchaCode')));
+          } else {
+            callback();
+          }
+        };
+      },
     },
     computed: {
       // 获取'记住我'
