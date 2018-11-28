@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { Auth } from '../views/';
+import { Auth } from '@/views';
+import layout from '@/views/layout';
 
 Vue.use(Router);
 export default new Router({
@@ -15,7 +16,7 @@ export default new Router({
       // 重定向到Login
       redirect: { name: 'Login' },
       // 在顶级路由就配置命名视图 APP.vue
-      component: () => import('../views/layout/'),
+      component: Auth.Layout,
       children: [{
         meta: {
           name: '用户登录',
@@ -34,6 +35,19 @@ export default new Router({
         name: 'Register',
         component: Auth.Register
       }
+      ]
+    },
+    {
+      path: '/leonardo',
+      component: layout,
+      redirect: { name: 'Dashboard' },
+      children: [
+        {
+          path: 'dashboard',
+          component: () => import('@/views/dashboard/index'),
+          name: 'Dashboard',
+          meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
+        }
       ]
     },
     {

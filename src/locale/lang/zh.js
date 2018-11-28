@@ -25,12 +25,16 @@ export default {
     cancel: '取消'
   },
   validate: {
+    number: '必须为数字',
     loginName: '请输入正确的用户名',
     email: '请输入邮箱地址',
     correctEmail: '请输入正确的邮箱地址',
     loginPwd: '请输入正确的密码',
     confirmPwd: '两次输入密码不一致',
-    mobileNo: '请输入手机号',
+    mobileNo: {
+      required: '请输入手机号',
+      pattern: '手机号格式不对'
+    },
     captchaCode: '请输入验证码',
     message: '必须输入提示信息',
     server: {

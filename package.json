@@ -19,6 +19,8 @@
     "lockr": "^0.8.5",
     "node-sass": "^4.10.0",
     "nprogress": "^0.2.0",
+    "path-to-regexp": "^2.4.0",
+    "screenfull": "^3.3.3",
     "vue": "^2.5.2",
     "vue-i18n": "^8.3.1",
     "vue-infinite-scroll": "^2.0.2",

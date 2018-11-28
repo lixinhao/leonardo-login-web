@@ -4,7 +4,7 @@
       <el-col :xs="24" :sm="6" :md="8" :lg="9" :xl="6">
         <el-card class="login-box" element-loading-background="rgba(0, 0, 0, 0.8)">
           <el-tooltip effect="dark" content="返回" placement="top-start">
-            <i class="el-icon-back el_back" @click="goBack"></i>
+            <i class="el-icon-back el_back" @click="$_config_goBack"></i>
           </el-tooltip>
           <div class="login_logo">
             <a href="#">
@@ -29,7 +29,7 @@
             <el-form-item prop="mobileNo">
               <el-input type="tel" v-model="registerForm.mobileNo" auto-complete="off" :placeholder="$t('from.mobileNo')" suffix-icon="el-icon-mobile-phone" clearable></el-input>
             </el-form-item>
-            <el-form-item prop="captchaCode">
+            <el-form-item prop="imageCode">
               <el-row type="flex" justify="space-between">
                 <el-col :xl="9">
                   <el-input type="text" v-model="registerForm.imageCode" :placeholder="$t('from.captchaCode')" clearable></el-input>
@@ -49,6 +49,8 @@
   </div>
 </template>
 <script>
+  import { UserHttp } from '@/api';
+
   export default {
     name: "Register",
     data () {
@@ -59,15 +61,18 @@
         registerForm: {
           loginName: '',
           loginPwd: '',
-          captchaCode: ''
+          imageCode: ''
         },
         registerRules: {
-          loginName: [{ required: true, trigger: 'blur', validator: this.validatorLoginName() }],
-          email: [{ required: true, trigger: 'blur', validator: this.validatorLoginEmail() }, { type: 'email', message: this.$t('validate.correctEmail'), trigger: ['blur', 'change'] }],
-          loginPwd: [{ required: true, trigger: 'blur', validator: this.validatorLoginPwd() }],
-          confirmPwd: [{ required: true, trigger: 'blur', validator: this.validatorConfirmPwd() }],
-          mobileNo: [{ required: true, trigger: 'blur', validator: this.validatorMobileNo() }],
-          captchaCode: [{ required: true, trigger: 'blur', message: this.$t('validate.captchaCode') }]
+          loginName: [{ required: true, trigger: 'blur', validator: this.$_validator_loginName() }],
+          email: [{ required: true, trigger: 'blur', validator: this.$_validator_loginEmail() },
+            { type: 'email', message: this.$t('validate.correctEmail'), trigger: ['blur', 'change'] }],
+          loginPwd: [{ required: true, trigger: 'blur', validator: this.$_validator_loginPwd() }],
+          confirmPwd: [{ required: true, trigger: 'blur', validator: this.$_validator_confirmPwd() }],
+          mobileNo: [{ required: true, trigger: 'blur', validator: this.$_validator_mobileNo() },
+            { type: 'number', trigger: 'blur', message: this.$t('validate.number') },
+            { pattern: /^1[3456789]\d{9}$/, trigger: 'blur', message: this.$t('validate.mobileNo.pattern') }],
+          imageCode: [{ required: true, trigger: 'blur', message: this.$t('validate.captchaCode') }]
         },
       };
     },
@@ -91,16 +96,115 @@
       },
       doRegister () {
         // 表单验证
-        this.$refs.loginForm.validate(valid => {
-          if (!valid) {
-            this.loading = true;
-            this.login();
-          } else {
-            return false
+        this.$refs.registerForm.validate((valid, object) => {
+          if (valid) {
+            this.register(() => {
+              this.successMsg('注册成功, 请登录邮箱激活用户');
+              this.$_config_loadPage('Login');
+            });
           }
         })
       },
-    }
+      /**
+       * 注册
+       * @param resolve
+       */
+      register (resolve) {
+        UserHttp.register(this.registerForm).then((res) => {
+          this.getImage();
+          if (res) {
+            resolve(res);
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+      },
+      /**
+       * 用户名校验
+       */
+      $_validator_loginName () {
+        return (rule, value, callback) => {
+          if (!value) {
+            callback(new Error(this.$t('validate.loginName')));
+          } else {
+            // TODO
+            //校验登录名是否存在
+            // this.$_validator_checkValid('loginName', this.registerForm.loginName, (res) => {
+            //   if (!res.result) {
+            //     callback(new Error(this.$t('validate.server.loginName')));
+            //   }
+            // });
+            callback();
+          }
+        };
+      },
+      /**
+       * 邮箱校验
+       */
+      $_validator_loginEmail () {
+        return (rule, value, callback) => {
+          if (!value) {
+            callback(new Error(this.$t('validate.email')));
+          } else {
+            //TODO
+            //校验邮箱是否存在
+            // this.$_validator_checkValid('email', this.registerForm.email, (res) => {
+            //   if (!res.result) {
+            //     callback(new Error(this.$t('validate.server.email')));
+            //   }
+            // });
+            callback();
+          }
+        };
+      },
+      /**
+       * 密码校验
+       */
+      $_validator_loginPwd () {
+        return (rule, value, callback) => {
+          if (!value) {
+            callback(new Error(this.$t('validate.loginPwd')));
+          } else {
+            callback();
+          }
+        };
+      },
+      /**
+       * 确认密码校验
+       */
+      $_validator_confirmPwd () {
+        return (rule, value, callback) => {
+          if (!value) {
+            callback(new Error(this.$t('validate.loginPwd')));
+          } else {
+            if (this.registerForm.loginPwd !== this.registerForm.confirmPwd) {
+              callback(new Error(this.$t('validate.confirmPwd')));
+            }
+            callback();
+          }
+        };
+      },
+      /**
+       *  手机号校验
+       */
+      $_validator_mobileNo () {
+        return (rule, value, callback) => {
+          if (!value) {
+            callback(new Error(this.$t('validate.mobileNo.required')));
+          } else {
+            //TODO
+            //校验手机号是否存在
+            // this.$_validator_checkValid('mobileNo', this.registerForm.mobileNo, (res) => {
+            //   if (!res.result) {
+            //     callback(new Error(this.$t('validate.server.mobileNo')));
+            //   }
+            // });
+            callback();
+          }
+        };
+      },
+    },
+    computed: {}
   }
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>

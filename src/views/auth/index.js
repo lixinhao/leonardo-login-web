@@ -1,7 +1,9 @@
-import Login from './user-login/index.vue';
-import Register from './user-register/index.vue';
+import Layout from './user-layout/index';
+import Login from './user-login/index';
+import Register from './user-register/index';
 
 export default {
+  Layout,
   Login,
   Register
 };

@@ -35,7 +35,7 @@
                   <el-checkbox :checked="rememberMe" @change="rememberMeFn" class="login_remember_me">{{ $t('login.rememberMe') }}</el-checkbox>
                 </el-col>
                 <el-col :xl="12" :xs="12" :sm="12" :md="12" :lg="12" class="login_forget_pwd">
-                  <a class="m-link" @click="loadPage('ResetPwdEmail')">{{ $t('login.forgetPwd') }}</a>
+                  <a class="m-link" @click="$_config_loadPage('ResetPwdEmail')">{{ $t('login.forgetPwd') }}</a>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -45,7 +45,7 @@
             <el-form-item>
               <el-row type="flex" justify="end">
                 <el-col :span="6" class="el_text_end el_form_item_margin">
-                  <a class="m-link" @click="loadPage('Register')">{{ $t('login.register') }}</a>
+                  <a class="m-link" @click="$_config_loadPage('Register')">{{ $t('login.register') }}</a>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -61,32 +61,12 @@
 <script>
   import LangSelect from '@/components/LangSelect';
   import SocialSign from './social-sign';
+  import { UserHttp } from '@/api';
 
   export default {
     name: "Login",
     components: { LangSelect, SocialSign },
     data () {
-      const validateLoginName = (rule, value, callback) => {
-        if (!value) {
-          callback(new Error(this.$t('validate.loginName')))
-        } else {
-          callback()
-        }
-      };
-      const validateLoginPwd = (rule, value, callback) => {
-        if (value.length < 6) {
-          callback(new Error(this.$t('validate.loginPwd')))
-        } else {
-          callback()
-        }
-      };
-      const validateCaptchaCode = (rule, value, callback) => {
-        if (value.length < 6) {
-          callback(new Error(this.$t('validate.captchaCode')))
-        } else {
-          callback()
-        }
-      };
       return {
         loading: false,
         imageCode: '',
@@ -97,9 +77,9 @@
           captchaCode: ''
         },
         loginRules: {
-          loginName: [{ required: true, trigger: 'blur', validator: validateLoginName }],
-          loginPwd: [{ required: true, trigger: 'blur', validator: validateLoginPwd }],
-          captchaCode: [{ required: true, trigger: 'blur', validator: validateCaptchaCode }],
+          loginName: [{ required: true, trigger: 'blur', validator: this.$_validator_loginName() }],
+          loginPwd: [{ required: true, trigger: 'blur', validator: this.$_validator_loginPwd() }],
+          captchaCode: [{ required: true, trigger: 'blur', validator: this.$_validator_captchaCode() }],
         },
       };
     },
@@ -112,7 +92,7 @@
       doLogin () {
         // 表单验证
         this.$refs.loginForm.validate(valid => {
-          if (!valid) {
+          if (valid) {
             this.loading = true;
             this.login();
           } else {
@@ -122,47 +102,35 @@
       },
       // 登录请求
       login () {
-        let loginName = this.loginForm.loginName;
-        let loginPwd = this.loginForm.loginPwd;
-        this.$http({
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'deviceId': this.deviceId
-          },
-          url: '/uac/auth/form',
-          auth: {
-            username: 'leonardo-client-uac',
-            password: 'leonardoClientSecret'
-          },
-          params: {
-            username: loginName,
-            password: loginPwd,
-            imageCode: this.loginForm.captchaCode
-          }
-        }).then((res) => {
+        UserHttp.login({
+          username: this.loginForm.loginName,
+          password: this.loginForm.loginPwd,
+          imageCode: this.loginForm.captchaCode
+        }).then(() => {
           this.loading = false;
           // 刷新验证码
           this.getImage();
           if (res && res.code === 200) {
-            this.$message({
-              showClose: true,
+            $message({
+              showClose: false,
               message: '登录成功',
               type: 'success'
             });
             // 更新认证Token
             this.$store.dispatch('update_auth_token', res.result);
-            window.location.href = this.redirectUri;
+            //TODO 设置头像
+            window.location.href = this.$store.getters.getRedirectUri;
           } else {
-            this.$message({
-              showClose: true,
+            $message({
+              showClose: false,
               message: '登录失败',
               type: 'warning'
             });
           }
         }).catch((err) => {
-          this.$message({
-            showClose: true,
+          this.loading = false;
+          $message({
+            showClose: false,
             message: '系统异常',
             type: 'error'
           });
@@ -186,6 +154,37 @@
       rememberMeFn () {
         // 本地更新'记住我'
         this.$store.dispatch('update_remember_me');
+      },
+      /**
+       * 用户名校验
+       */
+      $_validator_loginName () {
+        return (rule, value, callback) => {
+          if (!value) {
+            callback(new Error(this.$t('validate.loginName')));
+          } else {
+            // TODO
+            //校验登录名是否存在
+            // this.$_validator_checkValid('loginName', this.registerForm.loginName, (res) => {
+            //   if (!res.result) {
+            //     callback(new Error(this.$t('validate.server.loginName')));
+            //   }
+            // });
+            callback();
+          }
+        };
+      },
+      /**
+       * 密码校验
+       */
+      $_validator_loginPwd () {
+        return (rule, value, callback) => {
+          if (!value) {
+            callback(new Error(this.$t('validate.loginPwd')));
+          } else {
+            callback();
+          }
+        };
       }
     },
     computed: {
@@ -196,7 +195,7 @@
       // 获取重定向URL
       redirectUri () {
         return this.$store.getters.getRedirectUri;
-      }
+      },
     }
   };
 </script>

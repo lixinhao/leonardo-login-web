@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-const layout = {
+const language = {
   state: {
     language: Cookies.get('language') || 'en'
   },
@@ -8,6 +8,9 @@ const layout = {
     language: state => state.language
   },
   mutations: {
+    /**
+     * 设置语言
+     */
     SET_LANGUAGE: (state, language) => {
       state.language = language;
       Cookies.set('language', language);
@@ -19,4 +22,4 @@ const layout = {
     }
   }
 };
-export default layout;
+export default language;

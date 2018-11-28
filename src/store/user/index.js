@@ -6,6 +6,8 @@ const state = {
   loginName: '',
   // 记住我
   rememberMe: false,
+  // 头像
+  avatar: '',
   // 按钮列表
   menuList: [],
   // 重定向地址
@@ -23,6 +25,7 @@ const state = {
 };
 // 状态的Getter方法 this.$store.getters.xxx来绑定数据
 const getters = {
+  avatar: state => state.avatar,
   /**
    * 获取"记住我"的状态
    * @param state
@@ -82,6 +85,12 @@ const getters = {
 // 改变state状态
 const mutations = {
   /**
+   * 设置用户头像
+   */
+  setAvatar: (state, avatar) => {
+    state.avatar = avatar;
+  },
+  /**
    * 更新"记住我"
    * @param state 状态
    */
@@ -94,9 +103,7 @@ const mutations = {
         value: state.rememberMe
       });
     } else {
-      MyCookie.delete({
-        key: enums.USER.REMEMBER_ME
-      });
+      MyCookie.delete({ key: enums.USER.REMEMBER_ME });
     }
   },
   /**
@@ -231,6 +238,12 @@ const mutations = {
 // dispatch 一个action [commit mutation]
 const actions = {
   /**
+   * 设置头像
+   */
+  SET_AVATAR ({ commit }, avatar) {
+    commit('setAvatar', avatar);
+  },
+  /**
    * 获取Token
    * @param commit
    * @param cb
@@ -239,6 +252,7 @@ const actions = {
     if (!state.authToken || state.authToken.access_token === '') {
       state.authToken = MyCookie.get(enums.USER.AUTH_TOKEN) ? JSON.parse(MyCookie.get(enums.USER.AUTH_TOKEN)) : {};
     }
+    //TODO
     console.info('refresh_token:', state.authToken.refresh_token);
     if (state.authToken.access_token) {
       // 判断是否需要续租

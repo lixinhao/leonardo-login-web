@@ -1,18 +1,14 @@
 import axios from 'axios';
 import { base } from '@/utils/constant';
 import store from '@/store';
+import { Message as $message } from 'element-ui';
 
-const $http = axios.create({
+let $http = axios.create({
   timeout: base.timeout
 });
 // 环境的切换
-if (process.env.NODE_ENV === 'development') {
-  $http.defaults.baseURL = 'http://api.paascloud.net/';
-} else if (process.env.NODE_ENV === 'debug') {
-  $http.defaults.baseURL = 'http://api.paascloud.net/';
-} else if (process.env.NODE_ENV === 'production') {
-  $http.defaults.baseURL = 'http://api.paascloud.net/';
-}
+$http.defaults.baseURL = base.baseURL;
+
 // 配置请求头
 $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 $http.defaults.headers.post['deviceId'] = new Date().getTime();
@@ -44,9 +40,10 @@ $http.interceptors.response.use((res) => {
     // window.location.href = '/';
     return Promise.reject(res);
   } else {
-    store.dispatch('new_notice', {
-      autoClose: true,
-      content: res.data.message
+    $message({
+      showClose: false,
+      message: res.data.message,
+      type: 'success'
     });
     return Promise.reject(res);
   }
@@ -71,6 +68,10 @@ $http.interceptors.response.use((res) => {
   } else {
     options.content = '接口请求失败或超时！请刷新重试';
   }
-  store.dispatch('new_notice', options);
+  $message({
+    showClose: false,
+    message: options.content,
+    type: 'error'
+  });
 });
 export default $http;

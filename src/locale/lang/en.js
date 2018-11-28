@@ -30,6 +30,10 @@ export default {
     correctEmail: 'Please enter the correct email address',
     loginPwd: 'Please enter the correct password',
     confirmPwd: 'The two passwords do not match',
+    mobileNo: {
+      required: 'Please enter your mobile phone number',
+      pattern: 'The phone number is not in the right format'
+    },
     captchaCode: 'Please enter the captchaCode',
     message: 'The prompt message must be entered',
     server: {

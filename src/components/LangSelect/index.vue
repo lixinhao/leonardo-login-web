@@ -28,10 +28,7 @@
         if (lang === 'zh') {
           mes = '语言切换成功';
         }
-        this.$message({
-          message: mes,
-          type: 'success'
-        })
+        this.successMsg(mes)
       }
     }
   }

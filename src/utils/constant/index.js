@@ -10,16 +10,23 @@ const base = {
     password: 'leonardoClientSecret'
   },
   timeout: 60000,
-  redirect_uri: 'http://mall.paascloud.net'
+  redirect_uri: 'http://mall.paascloud.net',
+  baseURL: 'http://api.paascloud.net/'
 };
-const cbs = {};
-// 生成模式
-if (process.env.NODE_ENV === 'production') {
+// 环境的切换
+if (process.env.NODE_ENV === 'development') {
   base.domain = '.leonardo.net';
-} else {
-  base.domain = '.leonardo.net';
+  base.baseURL = 'http://api.paascloud.net/';
   base.lockr_prefix += '_DEV_';
+} else if (process.env.NODE_ENV === 'debug') {
+  base.domain = '.leonardo.net';
+  base.baseURL = 'http://api.paascloud.net/';
+  base.lockr_prefix += '_DEV_';
+} else if (process.env.NODE_ENV === 'production') {
+  base.domain = '.leonardo.net';
+  base.baseURL = 'http://api.paascloud.net/';
 }
+const cbs = {};
 // 常量
 const enums = {
   USER: {
@@ -29,6 +36,13 @@ const enums = {
     AUTH_TOKEN: 'AUTH_TOKEN',
     REFRESH_TOKEN: 'REFRESH_TOKEN',
     REDIRECT_URI: 'REDIRECT_URI'
+  },
+  SIDEBAR: {
+    STATUS: 'sidebarStatus'
+  },
+  PERMISSION: {
+    // 白名单: 在免登录白名单，直接进入
+    WHITELIST: ['/login', '/auth-redirect']
   }
 };
 export {

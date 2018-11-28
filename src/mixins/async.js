@@ -31,13 +31,14 @@ let async = {
         if (success) {
           success(res);
         } else {
-          this.goBack();
+          this.$_config_goBack();
         }
       }).catch((error) => {
         this.$myNProgress.done();
         //关闭Element 的loading
         this.$loading = false;
         //TODO 需要修改如添加弹出框
+        this.errorMsg('系统异常');
         console.error(error);
       });
     },

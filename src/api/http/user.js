@@ -1,5 +1,5 @@
 import store from '@/store/index';
-import $http from '@/utils/http';
+import { base, http as $http } from '@/utils';
 
 /**
  * 用户相关的API
@@ -7,17 +7,19 @@ import $http from '@/utils/http';
 class UserHttp {
   /**
    * 登录
-   * @param params
+   * @param userInfo
    */
-  login (params) {
-    return $http({
-      method: 'POST',
-      url: '/uac/auth/form',
-      auth: {
-        username: 'leonardo-client-uac',
-        password: 'leonardoClientSecret'
-      },
-      params: params
+  login (userInfo) {
+    return new Promise(() => {
+      $http({
+        method: 'POST',
+        url: '/uac/auth/form',
+        auth: {
+          username: base.auth.username,
+          password: base.auth.password
+        },
+        params: userInfo
+      });
     });
   }
 
@@ -25,13 +27,15 @@ class UserHttp {
    * 注册
    */
   register (registerForm) {
-    return $http({
-      method: 'POST',
-      headers: {
-        'deviceId': new Date().getTime()
-      },
-      url: '/uac/auth/register',
-      params: registerForm
+    return new Promise(() => {
+      $http({
+        method: 'POST',
+        headers: {
+          'deviceId': new Date().getTime()
+        },
+        url: '/uac/auth/register',
+        params: registerForm
+      });
     });
   }
 
@@ -88,6 +92,25 @@ class UserHttp {
         'deviceId': new Date().getTime()
       },
       params: params
+    });
+  }
+
+  /**
+   * 登出
+   */
+  logout () {
+    return this.$http({
+      method: 'POST',
+      url: '/uac/user/logout',
+      params: {
+        accessToken: this.$store.getters.getAccessToken
+      }
+    }).then(() => {
+      this.$store.dispatch('delete_user_info');
+      this.goHome();
+    }).catch(() => {
+      this.$store.dispatch('delete_user_info');
+      this.goHome();
     });
   }
 }
