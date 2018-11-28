@@ -1,10 +1,10 @@
-import MyCookie from '@/utils/cookie';
+import { enums, MyCookie } from '@/utils';
 
 const global = {
   state: {
     // 桌面浏览器还是手机
-    device: 'desktop',
-    size: MyCookie.get('size') || 'medium'
+    device: enums.GLOBAL.DEVICE.DESKTOP,
+    size: MyCookie.get(enums.GLOBAL.SIZE) || 'medium'
   },
   getters: {
     size: state => state.size,
@@ -16,7 +16,7 @@ const global = {
     },
     SET_SIZE: (state, size) => {
       state.size = size;
-      MyCookie.set('size', size);
+      MyCookie.set({ key: enums.GLOBAL.SIZE, value: size });
     }
   },
   actions: {

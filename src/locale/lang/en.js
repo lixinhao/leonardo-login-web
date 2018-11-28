@@ -1,4 +1,7 @@
 export default {
+  route: {
+    dashboard: 'Dashboard'
+  },
   login: {
     title: 'Login Form',
     logIn: 'Log in',
@@ -42,5 +45,21 @@ export default {
       email: 'Mailbox already exists',
       mobileNo: 'The phone number already exists'
     }
+  },
+  navbar: {
+    logOut: 'Log Out',
+    dashboard: 'Dashboard',
+    theme: 'Theme',
+    fullscreen: 'Full screen',
+    size: 'The layout size'
+  },
+  tagsView: {
+    refresh: 'Refresh',
+    close: 'Close',
+    closeOthers: 'Close Others',
+    closeAll: 'Close All'
+  },
+  message: {
+    sizeSelect: 'Switch Size Success'
   }
 };

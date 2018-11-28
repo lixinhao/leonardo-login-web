@@ -29,6 +29,17 @@ if (process.env.NODE_ENV === 'development') {
 const cbs = {};
 // 常量
 const enums = {
+  // 全局
+  GLOBAL: {
+    // 整个界面的布局大小
+    SIZE: 'SIZE',
+    // 项目运行在桌面还是手机
+    DEVICE: {
+      DESKTOP: 'DESKTOP',
+      MOBILE: 'MOBILE'
+    }
+  },
+  // 用户信息常量
   USER: {
     LOGIN_NAME: 'LOGIN_NAME',
     MENU_LIST: 'MENU_LIST',
@@ -37,9 +48,11 @@ const enums = {
     REFRESH_TOKEN: 'REFRESH_TOKEN',
     REDIRECT_URI: 'REDIRECT_URI'
   },
+  // 侧边栏
   SIDEBAR: {
     STATUS: 'sidebarStatus'
   },
+  // 权限
   PERMISSION: {
     // 白名单: 在免登录白名单，直接进入
     WHITELIST: ['/login', '/auth-redirect']

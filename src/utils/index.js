@@ -4,6 +4,7 @@ import MyEncrypt from './encrypt';
 import MyLockr from './lockr';
 import http from './http';
 import Model from './Model';
+import { generateTitle } from './i18n';
 
 
 export {
@@ -14,5 +15,6 @@ export {
   cbs,
   http,
   Model,
+  generateTitle,
   enums
 };

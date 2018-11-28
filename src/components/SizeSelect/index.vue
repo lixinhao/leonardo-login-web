@@ -23,8 +23,7 @@
         this.$ELEMENT.size = size;
         this.$store.dispatch('setSize', size);
         this.refreshView();
-        // TODO 需要国际化
-        this.successMsg('Switch Size Success');
+        this.successMsg(this.$t('message.sizeSelect'));
       },
       refreshView () {
         // 为了使缓存页面重新呈现

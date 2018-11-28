@@ -208,7 +208,7 @@
   }
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "~assets/style/views/auth/user-login";
+  @import "~assets/style/auth/user-login";
 
   .register_desc {
     color: #aba5b6;

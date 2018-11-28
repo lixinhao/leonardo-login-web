@@ -4,14 +4,14 @@
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <jump-link :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item v-if="onlyOneChild.meta" :icon="onlyOneChild.meta.icon||item.meta.icon" :title="$_config_generateTitle(onlyOneChild.meta.title)"/>
+          <item v-if="onlyOneChild.meta" :icon="onlyOneChild.meta.icon||item.meta.icon" :title="generateTitle(onlyOneChild.meta.title)"/>
         </el-menu-item>
       </jump-link>
     </template>
 
     <el-submenu v-else ref="submenu" :index="resolvePath(item.path)">
       <template slot="title">
-        <item v-if="item.meta" :icon="item.meta.icon" :title="$_config_generateTitle(item.meta.title)"/>
+        <item v-if="item.meta" :icon="item.meta.icon" :title="generateTitle(item.meta.title)"/>
       </template>
 
       <template v-for="child in item.children" v-if="!child.hidden">
@@ -25,7 +25,7 @@
 
         <jump-link v-else :to="resolvePath(child.path)" :key="child.name">
           <el-menu-item :index="resolvePath(child.path)">
-            <item v-if="child.meta" :icon="child.meta.icon" :title="$_config_generateTitle(child.meta.title)"/>
+            <item v-if="child.meta" :icon="child.meta.icon" :title="generateTitle(child.meta.title)"/>
           </el-menu-item>
         </jump-link>
       </template>
@@ -35,9 +35,10 @@
 </template>
 
 <script>
-  import path from 'path'
-  import Item from './item'
-  import JumpLink from '../jumpLink'
+  import path from 'path';
+  import Item from './item';
+  import JumpLink from '../jumpLink';
+  import { generateTitle } from '@/utils/i18n';
 
   export default {
     name: 'SidebarItem',
@@ -62,6 +63,7 @@
       }
     },
     methods: {
+      generateTitle,
       hasOneShowingChild (children, parent) {
         const showingChildren = children.filter(item => {
           if (item.hidden) {

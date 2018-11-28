@@ -12,7 +12,8 @@
 
 <script>
   // url 字符串的正则表达式
-  import pathToRegexp from 'path-to-regexp'
+  import pathToRegexp from 'path-to-regexp';
+  import { generateTitle } from '@/utils';
 
   export default {
     data () {
@@ -30,6 +31,7 @@
       this.getBreadcrumb()
     },
     methods: {
+      generateTitle,
       /**
        * 获取面包屑
        */

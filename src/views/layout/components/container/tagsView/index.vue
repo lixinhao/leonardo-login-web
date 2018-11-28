@@ -12,7 +12,7 @@
         class="tags-view-item"
         @click.middle.native="closeSelectedTag(tag)"
         @contextmenu.prevent.native="openMenu(tag,$event)">
-        {{ $_config_generateTitle(tag.title) }}
+        {{ generateTitle(tag.title) }}
         <span class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)"/>
       </router-link>
     </scroll-pane>
@@ -27,6 +27,7 @@
 
 <script>
   import ScrollPane from '@/components/ScrollPane'
+  import { generateTitle } from '@/utils/i18n';
 
   export default {
     components: { ScrollPane },
@@ -60,6 +61,7 @@
       this.addViewTags()
     },
     methods: {
+      generateTitle,
       isActive (route) {
         return route.path === this.$route.path
       },
@@ -161,20 +163,20 @@
         margin-left: 5px;
         margin-top: 4px;
 
-        & :first-of-type {
+        &:first-of-type {
           margin-left: 15px;
         }
 
-        & :last-of-type {
+        &:last-of-type {
           margin-right: 15px;
         }
 
-        & .active {
+        &.active {
           background-color: #42b983;
           color: #fff;
           border-color: #42b983;
 
-          & ::before {
+          &::before {
             content: '';
             background: #fff;
             display: inline-block;
@@ -207,7 +209,7 @@
         padding: 7px 16px;
         cursor: pointer;
 
-        & :hover {
+        &:hover {
           background: #eee;
         }
 

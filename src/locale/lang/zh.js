@@ -1,4 +1,7 @@
 export default {
+  route: {
+    dashboard: '首页'
+  },
   login: {
     title: '系统登录',
     logIn: '登录',
@@ -42,5 +45,21 @@ export default {
       email: '邮箱已存在',
       mobileNo: '手机号码已存在'
     }
+  },
+  navbar: {
+    logOut: '退出登录',
+    dashboard: '首页',
+    theme: '换肤',
+    fullscreen: '全屏',
+    size: '布局大小'
+  },
+  tagsView: {
+    refresh: '刷新',
+    close: '关闭',
+    closeOthers: '关闭其它',
+    closeAll: '关闭所有'
+  },
+  message: {
+    sizeSelect: '改变布局大小成功'
   }
 };

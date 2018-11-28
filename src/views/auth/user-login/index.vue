@@ -212,5 +212,5 @@
   };
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "~assets/style/views/auth/user-login";
+  @import "~assets/style/auth/user-login";
 </style>

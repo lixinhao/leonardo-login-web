@@ -10,6 +10,17 @@ export default new Router({
   // 要在嵌套的出口中渲染组件，需要在 VueRouter 的参数中使用 children 配置
   routes: [
     {
+      path: '/redirect',
+      component: Auth.Layout,
+      hidden: true,
+      children: [
+        {
+          path: '/redirect/:path*',
+          component: () => import('@/views/redirect/index')
+        }
+      ]
+    },
+    {
       // 默认进入路由[写在第一个]
       path: '/',
       // 在顶级路由就配置命名视图

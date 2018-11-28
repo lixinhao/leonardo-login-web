@@ -3,7 +3,7 @@
     <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
     <breadcrumb class="breadcrumb-container"/>
     <div class="right-menu">
-      <template v-if="device!=='mobile'">
+      <template v-if="device!==$myEnum.GLOBAL.DEVICE.MOBILE">
         <!--全屏-->
         <el-tooltip :content="$t('navbar.fullscreen')" effect="dark" placement="bottom">
           <screenfull class="screenfull right-menu-item"/>
@@ -31,11 +31,6 @@
               {{ $t('navbar.dashboard') }}
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
-            <el-dropdown-item>
-              {{ $t('navbar.github') }}
-            </el-dropdown-item>
-          </a>
           <el-dropdown-item divided>
             <span style="display:block;" @click.prevent="logout">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>

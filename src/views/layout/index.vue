@@ -1,11 +1,14 @@
 <template>
   <el-container>
-    <el-aside>Aside</el-aside>
+    <el-aside >
+      <sidebar class="sidebar-container"/>
+    </el-aside>
     <el-container>
-      <el-header>Header</el-header>
-      <el-main>
+      <el-header>
         <navbar/>
         <tags-view/>
+      </el-header>
+      <el-main>
         <app-main/>
       </el-main>
       <el-footer>Footer</el-footer>
@@ -36,7 +39,7 @@
           hideSidebar: !this.sidebar.opened,
           openSidebar: this.sidebar.opened,
           withoutAnimation: this.sidebar.withoutAnimation,
-          mobile: this.device === 'mobile'
+          mobile: this.device === this.$myEnum.GLOBAL.DEVICE.MOBILE
         }
       }
     },
@@ -47,25 +50,3 @@
     }
   }
 </script>
-<style type="text/scss" lang="scss" scoped>
-  .app-wrapper {
-    position: relative;
-    height: 100%;
-    width: 100%;
-
-    &.mobile.openSidebar {
-      position: fixed;
-      top: 0;
-    }
-  }
-
-  .drawer-bg {
-    background: #000;
-    opacity: 0.3;
-    width: 100%;
-    top: 0;
-    height: 100%;
-    position: absolute;
-    z-index: 999;
-  }
-</style>
