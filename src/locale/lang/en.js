@@ -25,6 +25,7 @@ export default {
     cancel: 'cancel'
   },
   validate: {
+    number: 'It has to be a number',
     loginName: 'Please enter the correct user name',
     email: 'Please enter your email address',
     correctEmail: 'Please enter the correct email address',
