@@ -25,7 +25,7 @@
                   <el-input type="text" v-model="loginForm.captchaCode" :placeholder="$t('from.captchaCode')" clearable></el-input>
                 </el-col>
                 <el-col :xl="6" class="login_img">
-                  <img v-lazy="imageCode" @click="getImage" class="login-image-code"/>
+                  <img v-lazy="imageCode" :key="imageCode" @click="getImage" class="login-image-code" alt=""/>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -70,7 +70,6 @@
       return {
         loading: false,
         imageCode: '',
-        deviceId: '',
         loginForm: {
           loginName: '',
           loginPwd: '',
@@ -106,50 +105,31 @@
           username: this.loginForm.loginName,
           password: this.loginForm.loginPwd,
           imageCode: this.loginForm.captchaCode
-        }).then(() => {
+        }).then((res) => {
           this.loading = false;
           // 刷新验证码
           this.getImage();
           if (res && res.code === 200) {
-            $message({
-              showClose: false,
-              message: '登录成功',
-              type: 'success'
-            });
+            this.successMsg('登录成功');
             // 更新认证Token
-            this.$store.dispatch('update_auth_token', res.result);
+            //TODO  update_auth_token
+            //this.$store.dispatch('update_auth_token', res.result);
             //TODO 设置头像
             window.location.href = this.$store.getters.getRedirectUri;
           } else {
-            $message({
-              showClose: false,
-              message: '登录失败',
-              type: 'warning'
-            });
+            this.warnMsg('登录失败');
           }
         }).catch((err) => {
           this.loading = false;
-          $message({
-            showClose: false,
-            message: '系统异常',
-            type: 'error'
-          });
+          this.errorMsg('系统异常');
           console.log(err);
         });
       },
+      // 获取验证码
       getImage () {
-        // let that = this;
-        // that.deviceId = new Date().getTime();
-        // this.$http({
-        //   method: 'POST',
-        //   url: '/uac/auth/code/image',
-        //   headers: {
-        //     'deviceId': that.deviceId
-        //   },
-        //   data: ''
-        // }).then((res) => {
-        //   that.imageCode = 'data:image/jpg;base64,' + res.result;
-        // });
+        UserHttp.getImageCode().then((res) => {
+          this.imageCode = 'data:image/jpg;base64,' + res.result;
+        });
       },
       rememberMeFn () {
         // 本地更新'记住我'

@@ -10,21 +10,22 @@ const base = {
     password: 'leonardoClientSecret'
   },
   timeout: 60000,
-  redirect_uri: 'http://mall.paascloud.net',
-  baseURL: 'http://api.paascloud.net/'
+  redirect_uri: 'http://localhost/leonardo',
+  // baseURL: 'http://api.paascloud.net/'
+  baseURL: 'uac'
 };
 // 环境的切换
 if (process.env.NODE_ENV === 'development') {
   base.domain = '.leonardo.net';
-  base.baseURL = 'http://api.paascloud.net/';
+  base.baseURL = 'uac';
   base.lockr_prefix += '_DEV_';
 } else if (process.env.NODE_ENV === 'debug') {
   base.domain = '.leonardo.net';
-  base.baseURL = 'http://api.paascloud.net/';
+  base.baseURL = 'uac';
   base.lockr_prefix += '_DEV_';
 } else if (process.env.NODE_ENV === 'production') {
   base.domain = '.leonardo.net';
-  base.baseURL = 'http://api.paascloud.net/';
+  base.baseURL = 'https://easy-mock.com/mock/5bff6327c3b9c90b269c18c4/leonardo/';
 }
 const cbs = {};
 // 常量

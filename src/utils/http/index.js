@@ -4,14 +4,12 @@ import store from '@/store';
 import { Message as $message } from 'element-ui';
 
 let $http = axios.create({
+  // 环境的切换
+  baseURL: base.baseURL,
   timeout: base.timeout
 });
-// 环境的切换
-$http.defaults.baseURL = base.baseURL;
-
 // 配置请求头
 $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-$http.defaults.headers.post['deviceId'] = new Date().getTime();
 // $http.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
 // 添加一个请求拦截器
 $http.interceptors.request.use(config => {

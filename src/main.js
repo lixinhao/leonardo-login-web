@@ -14,6 +14,7 @@ import Element from 'element-ui';
 import i18n from './locale';
 import { Async, Config, Msg, Validate } from './mixins';
 import { enums, http, MyCookie, MyEncrypt, MyLockr } from './utils';
+import './mock';
 // 状态管理
 Vue.use(Vuex);
 // 滚动条

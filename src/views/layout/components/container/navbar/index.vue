@@ -22,7 +22,9 @@
       <!--登录人-->
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" class="user-avatar">
+          <!--TODO -->
+          <!--<img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
           <i class="el-icon-caret-bottom"/>
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -31,6 +33,7 @@
               {{ $t('navbar.dashboard') }}
             </el-dropdown-item>
           </router-link>
+          <!--divided 显示分割线-->
           <el-dropdown-item divided>
             <span style="display:block;" @click.prevent="logout">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>

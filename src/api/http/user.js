@@ -1,16 +1,37 @@
 import store from '@/store/index';
 import { base, http as $http } from '@/utils';
-
+let deviceId;
 /**
  * 用户相关的API
  */
 class UserHttp {
   /**
+   * 获取图片验证码
+   */
+  getImageCode () {
+    deviceId = new Date().getTime();
+    return new Promise((resolve, reject) => {
+      $http({
+        method: 'POST',
+        url: '/uac/auth/code/image',
+        headers: {
+          'deviceId': deviceId
+        },
+        data: ''
+      }).then((res) => {
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      });
+    });
+  }
+
+  /**
    * 登录
    * @param userInfo
    */
   login (userInfo) {
-    return new Promise(() => {
+    return new Promise((resolve, reject) => {
       $http({
         method: 'POST',
         url: '/uac/auth/form',
@@ -18,7 +39,14 @@ class UserHttp {
           username: base.auth.username,
           password: base.auth.password
         },
+        headers: {
+          'deviceId': deviceId
+        },
         params: userInfo
+      }).then((res) => {
+        resolve(res);
+      }).catch(error => {
+        reject(error);
       });
     });
   }
@@ -27,7 +55,7 @@ class UserHttp {
    * 注册
    */
   register (registerForm) {
-    return new Promise(() => {
+    return new Promise((resolve, reject) => {
       $http({
         method: 'POST',
         headers: {
@@ -35,6 +63,10 @@ class UserHttp {
         },
         url: '/uac/auth/register',
         params: registerForm
+      }).then((res) => {
+        resolve(res);
+      }).catch(error => {
+        reject(error);
       });
     });
   }
@@ -54,20 +86,6 @@ class UserHttp {
         refreshToken: store.getters.getRefreshToken,
         accessToken: store.getters.getAccessToken
       }
-    });
-  }
-
-  /**
-   * 获取图片验证码
-   */
-  getImage () {
-    return $http({
-      method: 'POST',
-      url: '/uac/auth/code/image',
-      headers: {
-        'deviceId': new Date().getTime()
-      },
-      data: ''
     });
   }
 
