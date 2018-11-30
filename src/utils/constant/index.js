@@ -1,6 +1,7 @@
 const base = {
-  // host
-  host: 'https://wwww.baidu.com',
+  timeout: 60000,
+  redirect_uri: '/leonardo',
+  baseURL: 'uac',
   // 本地存储localStorage 的前缀
   lockr_prefix: 'leonardo',
   secret_key: '^#rwd6Ffz$X5alRN',
@@ -8,11 +9,7 @@ const base = {
   auth: {
     username: 'leonardo-client-uac',
     password: 'leonardoClientSecret'
-  },
-  timeout: 60000,
-  redirect_uri: 'http://localhost/leonardo',
-  // baseURL: 'http://api.paascloud.net/'
-  baseURL: 'uac'
+  }
 };
 // 环境的切换
 if (process.env.NODE_ENV === 'development') {

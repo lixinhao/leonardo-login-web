@@ -13,7 +13,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import Element from 'element-ui';
 import i18n from './locale';
 import { Async, Config, Msg, Validate } from './mixins';
-import { enums, http, MyCookie, MyEncrypt, MyLockr } from './utils';
+import { base, enums, http, MyCookie, MyEncrypt, MyLockr } from './utils';
 import './mock';
 // 状态管理
 Vue.use(Vuex);
@@ -40,6 +40,7 @@ Vue.mixin(Async);
 Vue.mixin(Msg);
 Vue.mixin(Validate);
 //定义全局变量
+Vue.prototype.$myBase = base;
 Vue.prototype.$myEnum = enums;
 Vue.prototype.$myEncrypt = MyEncrypt;
 Vue.prototype.$myLockr = MyLockr;

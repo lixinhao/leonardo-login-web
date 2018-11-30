@@ -68,6 +68,7 @@
     components: { LangSelect, SocialSign },
     data () {
       return {
+        redirect: undefined,
         loading: false,
         imageCode: '',
         loginForm: {
@@ -85,6 +86,18 @@
     // 编译好页面后执行
     mounted () {
       this.getImage();
+    },
+    watch: {
+      // 第一个handler：其值是一个回调函数。即监听到变化时应该执行的函数。
+      // 第二个是deep：其值是true或false；确认是否深入监听。（一般监听时是不能监听到对象属性值的变化的，数组的值变化可以听到。）
+      // 第三个是immediate：其值是true或false；确认是否以当前的初始值执行handler的函数。
+      $route: {
+        handler: function (route) {
+          // 路由重定向方法
+          this.redirect = route.query && route.query.redirect
+        },
+        immediate: true
+      }
     },
     methods: {
       // 点击登录按钮
@@ -112,10 +125,11 @@
           if (res && res.code === 200) {
             this.successMsg('登录成功');
             // 更新认证Token
-            //TODO  update_auth_token
-            //this.$store.dispatch('update_auth_token', res.result);
+            this.$store.dispatch('update_auth_token', res.result);
             //TODO 设置头像
-            window.location.href = this.$store.getters.getRedirectUri;
+            // 2种形式跳转
+            this.$router.push({ path: this.redirect || this.$myBase.redirect_uri });
+            //window.location.href = this.$store.getters.getRedirectUri;
           } else {
             this.warnMsg('登录失败');
           }

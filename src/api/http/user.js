@@ -1,6 +1,8 @@
 import store from '@/store/index';
 import { base, http as $http } from '@/utils';
+
 let deviceId;
+
 /**
  * 用户相关的API
  */
@@ -28,7 +30,6 @@ class UserHttp {
 
   /**
    * 登录
-   * @param userInfo
    */
   login (userInfo) {
     return new Promise((resolve, reject) => {
